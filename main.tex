@@ -2,7 +2,7 @@
 %% SEEMOO Seminar paper template based on
 %% IEEEtran.cls and bare_conf.tex.
 
-\documentclass[conference]{sty/IEEEtran}
+\documentclass[conference]{IEEEtran}
 
 \usepackage[utf8]{inputenc}
 
@@ -157,6 +157,8 @@ Email: your.name@stud.tu-darmstadt.de}}
 % make the title area
 \maketitle
 
+\bstctlcite{IEEEexample:BSTcontrol}
+
 % As a general rule, do not put math, special symbols or citations
 % in the abstract
 \begin{abstract}
@@ -292,19 +294,7 @@ The conclusion goes here.
 
 % references section
 
-%\bibliographystyle{sty/IEEEtran}
-% argument is your BibTeX string definitions and bibliography database(s)
-%\bibliography{IEEEabrv,../bib/paper}
-%
-% <OR> manually copy in the resultant .bbl file
-% set second argument of \begin to the number of references
-% (used to reserve space for the reference number labels box)
-\begin{thebibliography}{1}
-
-\bibitem{IEEEhowto:kopka}
-H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
-  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
-
-\end{thebibliography}
+\bibliographystyle{sty/IEEEtran}
+\bibliography{library}
 
 \end{document}
