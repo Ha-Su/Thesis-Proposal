@@ -1,5 +1,5 @@
-## Main PDF
-main.pdf
+## All PDF files in top directory:
+/*.pdf
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
@@ -17,13 +17,11 @@ main.pdf
 ## Intermediate documents:
 *.dvi
 *-converted-to.*
+
 # these rules might exclude image files for figures etc.
 # *.ps
 # *.eps
 # *.pdf
-
-## Generated if empty string is given at "Please type another file name for output:"
-.pdf
 
 ## Bibliography auxiliary files (bibtex/biblatex/biber):
 *.bbl
@@ -101,7 +99,7 @@ acs-*.bib
 # knitr
 *-concordance.tex
 # TODO Comment the next line if you want to keep your tikz graphics files
-*.tikz
+# *.tikz
 *-tikzDictionary
 
 # listings
@@ -127,6 +125,9 @@ _minted*
 
 # morewrites
 *.mw
+
+# mpgraphics
+*.mp
 
 # mylatexformat
 *.fmt
@@ -183,6 +184,7 @@ pythontex-files-*/
 TSWLatexianTemp*
 
 ## Editors:
+
 # WinEdt
 *.bak
 *.sav
@@ -195,3 +197,20 @@ TSWLatexianTemp*
 
 # KBibTeX
 *~[0-9]*
+
+# vim
+*.swp
+*~
+
+## Operating System:
+
+# MAC OS X
+.DS_Store
+
+## Custom settings:
+
+# Separate directory for ignored files:
+/gitignore/
+
+# Git patches:
+*.patch
