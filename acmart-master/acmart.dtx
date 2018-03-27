@@ -1,6 +1,6 @@
 % \iffalse
 %
-% Copyright 2016-2017, Association for Computing Machinery
+% Copyright 2016-2018, Association for Computing Machinery
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either
 % version 1.3 of this license or (at your option) any
@@ -58,7 +58,7 @@
 % \ifx\currentjob\guide\OnlyDescription\fi
 % \GetFileInfo{acmart.dtx}
 % \title{\LaTeX{} Class for the \emph{Association for Computing
-% Machinery}\thanks{\copyright 2016--2017, Association for Computing Machinery}}
+% Machinery}\thanks{\copyright 2016--2018, Association for Computing Machinery}}
 % \author{Boris Veytsman\thanks{%
 % \href{mailto:borisv@lk.net}{\texttt{borisv@lk.net}},
 % \href{mailto:boris@varphi.com}{\texttt{boris@varphi.com}}}}
@@ -111,16 +111,20 @@
 %  Ben Liblit,
 %  Kai Mindermann,
 %  Frank Mittelbach,
+%  Serguei Mokhov,
 %  Ross Moore,
 %  John Owens,
 %  Joel Nider,
 %  Tobias Pape,
 %  Mathias Rav,
+%  Andreas Reichinger,
 %  Matteo Riondato,
 %  Craig Rodkin,
 %  Bernard Rous,
 %  David Shamma,
 %  Stephen Spencer,
+%  Daniel Thomas,
+%  Zack Weinberg,
 %  John Wickerson
 %  and many others for their invaluable help.
 %
@@ -156,6 +160,9 @@
 % At this address you can file a bug report---or even contribute your
 % own enhancement by making a pull request.
 %
+% Please note that the version on Github is a development (or
+% experimental) version: please download it for testing new features.
+% The production version is the one on CTAN and ACM sites.  
 %
 % Most users should not attempt to install this package themselves
 % but should rather rely on their \TeX\ distributions to provide it.  If you
@@ -194,7 +201,6 @@
 % \item \textsl{environ}, \url{http://www.ctan.org/pkg/environ}
 % \item \textsl{etoolbox}, \url{http://www.ctan.org/pkg/etoolbox}
 % \item \textsl{fancyhdr}, \url{http://www.ctan.org/pkg/fancyhdr}
-% \item \textsl{flushend}, \url{http://www.ctan.org/pkg/flushend}
 % \item \textsl{float}, \url{http://www.ctan.org/pkg/float}
 % \item \textsl{fontaxes}, \url{http://www.ctan.org/pkg/fontaxes}
 % \item \textsl{geometry}, \url{http://www.ctan.org/pkg/geometry}
@@ -270,7 +276,8 @@
 %     \normalfont Value & Meaning\\
 %     \midrule
 %   manuscript & A manuscript. This is the default. \\
-%   acmsmall & Small single-column format.  Used for CIE, CSUR, JACM, JDIQ, JEA, JERIC,
+%   acmsmall & Small single-column format.  Used for CIE, CSUR, DTRAP,
+%            JACM, JDIQ, JEA, JERIC,
 %            JETC, PACMHCI, PACMPL, TAAS, TACCESS, TACO, TALG, TALLIP (formerly TALIP), TCPS,
 %            TEAC, TECS, THRI, TIIS, TISSEC, TIST, TKDD, TMIS, TOCE, TOCHI, TOCL,
 %            TOCS, TOCT, TODAES, TODS, TOIS, TOIT, TOMACS, TOMM (formerly
@@ -280,12 +287,10 @@
 %   acmlarge  & Large single-column format.  Used for
 %           IMWUT, JOCCH, POMACS and TAP, including special issues. \\
 %   acmtog   & Large double-column format.  Used for
-%          TOG, including special issues.\\
+%          TOG, including annual conference Technical Papers.\\
 %   sigconf & Proceedings format for most ACM
 %          conferences (with the exceptions listed below) and all ICPS
 %          volumes.\\
-%   siggraph & As of March 2017, this format is no longer
-%           used.  Please use |sigconf| for SIGGRAPH conferences. \\
 %   sigplan & Proceedings format for SIGPLAN conferences.\\
 %   sigchi  & Proceedings format for SIGCHI conferences.\\
 %   sigchi-a & Format for SIGCHI extended abstracts.\\
@@ -405,6 +410,7 @@
 %     \midrule
 %     CIE & ACM Computers in Entertainment \\
 %     CSUR & ACM Computing Surveys\\
+%     DTRAP &  Digital Threats: Research and Practice\\  
 %     IMWUT & PACM on Interactive, Mobile, Wearable and Ubiquitous
 %     Technologies\\
 %     JACM &  Journal of the ACM \\
@@ -730,7 +736,7 @@
 % default) or |true|.  If this parameter is |true|, \cs{afffiliation}
 % obeys the author's command.  Thus
 % \begin{verbatim}
-% \affiliation[obeypuctuation=true]{%
+% \affiliation[obeypunctuation=true]{%
 %   \institution{Fluginstitut}\\
 %   \streetaddress{Sonnenallee 17}\\
 %   \postcode{123456}
@@ -1014,7 +1020,11 @@
 %     government other than the US or Canada. \\
 %     \texttt{licensedothergov} & Authors are employees of a
 %     government other than the US or Canada, and the publication rights
-%     are licensed to the ACM\@. \\
+%                                   are licensed to the ACM\@. \\
+%     \texttt{iw3c2w3} & Special statement for conferences organized
+%     by IW3C2.\\
+%     \texttt{iw3c2w3g} & Special statement for conferences organized
+%     by IW3C2, when some authors are approved Google employees.\\
 %     \bottomrule
 %   \end{tabularx}
 % \end{table}
@@ -1399,10 +1409,22 @@
 % \setcitestyle{numbers,sort&compress}
 % \end{verbatim}
 %
+% One of the more common versions is
+% \begin{verbatim}
+% \setcitestyle{nosort}
+% \end{verbatim}
+% It is useful if you do not like the way |natbib| sorts citation
+% lists.  
+%
 % If you use |natbib|, then commands like \cs{citep} and
 % \cs{citeauthor} are automatically supported.  The command
 % \cs{shortcite} is the same as \cs{cite} in numerical mode and cites
 % the year in author-date mode.
+%
+% Note that before version~1.48 the command \cs{citeyear} put the year
+% in parentheses.  In version~1.48 and later it produces just the
+% year; the command \cs{citeyearpar} can be used to emulate its old
+% behavior.
 %
 % There are several customized \BibTeX\ entry types and fields in the ACM
 % style file \path{ACM-Reference-Format.bst} that you may want to be
@@ -1649,7 +1671,7 @@
 \ProvidesFile{acmart.dtx}
 %</gobble>
 %<class>\ProvidesClass{acmart}
-[2017/09/16 v1.48 Typesetting articles for the Association for
+[2018/02/07 v1.50 Typesetting articles for the Association for
 Computing Machinery]
 %    \end{macrocode}
 %
@@ -1723,7 +1745,12 @@ Computing Machinery]
 % \changes{v1.47}{2017/08/31}{New journal: THRI}
 % \changes{v1.48}{2017/09/09}{Typos fixed (Jamie Davis)}
 % \changes{v1.48}{2017/09/16}{Code prettying (Michael D.~Adams)}
-%
+% \changes{v1.48}{2017/09/23}{Misc entries in the bibliography no
+% longer produce a separate date}
+% \changes{v1.48}{2017/10/01}{Initial support for Biblatex (Daniel Thomas)}
+% \changes{1.48}{2017/10/14}{Bib code cleanup (Zack Weinberg)}
+% \changes{1.48}{2017/12/03}{Documentation update (siggraph)}
+% \changes{1.49}{2018/01/24}{New journal:  DTRAP}
 %
 % And the driver code:
 %    \begin{macrocode}
@@ -2038,7 +2065,6 @@ Computing Machinery]
 %
 % \changes{v1.13}{2016/06/06}{Increased font size for ACM Large}
 % \changes{v1.38}{2017/05/13}{Increase default font size for SIGPLAN}
-% \changes{v1.48}{2017/09/16}{Added flushend for two-column formatting}
 %
 %
 % At this point we either have \cs{ACM@fontsize} or use defaults
@@ -2068,26 +2094,6 @@ Computing Machinery]
 \ClassInfo{\@classname}{Using fontsize \ACM@fontsize}
 \LoadClass[\ACM@fontsize, reqno]{amsart}
 \RequirePackage{microtype}
-%    \end{macrocode}
-%
-% We use |flushend| for two-column formats.
-%    \begin{macrocode}
-\ifcase\ACM@format@nr
- \relax % manuscript
- \or % acmsmall
- \or % acmlarge
- \or % acmtog
-   \RequirePackage{flushend}
- \or % sigconf
-   \RequirePackage{flushend}
- \or % siggraph
-   \RequirePackage{flushend}
- \or % sigplan
-   \RequirePackage{flushend}
- \or % sigchi
-   \RequirePackage{flushend}
- \or % sigchi-a
-\fi
 %    \end{macrocode}
 %
 %
@@ -2449,6 +2455,8 @@ Computing Machinery]
 % Bibliography mangling.
 % \changes{v1.33}{2017/03/23}{Moved \cs{citename} definition for
 % non-natbib bibliography, so a package may redefine it}
+% \changes{v1.48}{2017/09/23}{\cs{citeyear} no longer behaves like
+% \cs{citeyearpar}}
 %    \begin{macrocode}
 \if@ACM@natbib
   \let\citeN\cite
@@ -2456,7 +2464,6 @@ Computing Machinery]
   \let\citeANP\citeauthor
   \let\citeNN\citeyearpar
   \let\citeyearNP\citeyear
-  \let\citeyear\citeyearpar
   \let\citeNP\citealt
   \DeclareRobustCommand\citeA
      {\begingroup\NAT@swafalse
@@ -2468,7 +2475,7 @@ Computing Machinery]
     \providecommand\citename[1]{#1}}
 \fi
 \newcommand\shortcite[2][]{%
-  \ifNAT@numbers\cite[#1]{#2}\else\citeyear[#1]{#2}\fi}
+  \ifNAT@numbers\cite[#1]{#2}\else\citeyearpar[#1]{#2}\fi}
 %    \end{macrocode}
 %
 %
@@ -2490,9 +2497,11 @@ Computing Machinery]
 % \end{macro}
 %
 %
-% Graphics and color
+% Graphics and color.
+% \changes{1.48}{2017/10/22}{Added prologue option to xcolor}
 %    \begin{macrocode}
-\RequirePackage{graphicx, xcolor}
+\RequirePackage{graphicx}
+\RequirePackage[prologue]{xcolor}
 %    \end{macrocode}
 %
 % We define ACM colors according to~\cite{ACMIdentityStandards}:
@@ -3108,6 +3117,7 @@ Computing Machinery]
 \define@choicekey*+{ACM}{acmJournal}[\@journalCode\@journalCode@nr]{%
   CIE,%
   CSUR,%
+  DTRAP,%
   IMWUT,%
   JACM,%
   JDIQ,%
@@ -3168,6 +3178,10 @@ Computing Machinery]
   \def\@journalName{ACM Computing Surveys}%
   \def\@journalNameShort{ACM Comput. Surv.}%
   \def\@permissionCodeOne{0360-0300}%
+\or % DTRAP
+  \def\@journalName{Digital Threats: Research and Practice}%
+  \def\@journalNameShort{Digit. Threat. Res. Pract.}%
+  \def\@permissionCodeOne{2576-5337}%
 \or % IMWUT
   \def\@journalName{Proceedings of the ACM on Interactive, Mobile,
     Wearable and Ubiquitous Technologies}%
@@ -4188,7 +4202,8 @@ Computing Machinery]
   \acm@copyrightinput\acm@copyrightmode]{none,%
     acmcopyright,acmlicensed,rightsretained,%
     usgov,usgovmixed,cagov,cagovmixed,licensedusgovmixed,%
-    licensedcagov,licensedcagovmixed,othergov,licensedothergov}{%
+    licensedcagov,licensedcagovmixed,othergov,licensedothergov,%
+    iw3c2w3,iw3c2w3g}{%
   \@printpermissiontrue
   \@printcopyrighttrue
   \@acmownedtrue
@@ -4226,6 +4241,12 @@ Computing Machinery]
    \@acmownedtrue
   \fi
   \ifnum\acm@copyrightmode=12\relax % licensedothergov
+   \@acmownedfalse
+  \fi
+  \ifnum\acm@copyrightmode=13\relax % iw3c2w3
+   \@acmownedfalse
+  \fi
+  \ifnum\acm@copyrightmode=14\relax % iw3c2w3g
    \@acmownedfalse
   \fi}
 %    \end{macrocode}
@@ -4274,6 +4295,12 @@ Computing Machinery]
   \or % licensedothergov
   Copyright held by the owner/author(s). Publication rights licensed to
   the Association for Computing Machinery.
+  \or % ic2w3www
+  IW3C2 (International World Wide Web Conference Committee), published
+  under Creative Commons CC~BY~4.0 License.
+  \or % ic2w3wwwgoogle
+  IW3C2 (International World Wide Web Conference Committee), published
+  under Creative Commons CC~BY-NC-ND~4.0 License.
   \fi}
 %    \end{macrocode}
 %
@@ -4291,6 +4318,7 @@ Computing Machinery]
 %
 % \begin{macro}{\@copyrightpermission}
 % \changes{v1.40}{2017/06/16}{Added new copyright version: licensedcagov}
+% \changes{v1.50}{2018/02/07}{New copyright statements for iw3c2w3[g]}
 %   The canned permission block.
 %    \begin{macrocode}
 \def\@copyrightpermission{%
@@ -4404,7 +4432,18 @@ Computing Machinery]
    retains a nonexclusive, royalty-free right to publish or reproduce
    this article, or to allow others to do so, for Government purposes
    only.
-  \fi}
+ \or % iw3c2w3
+   This paper is published under the Creative Commons Attribution~4.0
+   International (CC~BY~4.0) license. Authors reserve their rights to
+   disseminate the work on their personal and corporate Web sites with
+   the appropriate attribution. 
+ \or % iw3c2w3g
+   This paper is published under the Creative Commons
+   Attribution-NonCommercial-NoDerivs~4.0 International
+   (CC~BY-NC-ND~4.0) license. Authors reserve their rights to
+   disseminate the work on their personal and corporate Web sites with
+   the appropriate attribution. 
+ \fi}
 %    \end{macrocode}
 %
 % \end{macro}
@@ -4494,6 +4533,11 @@ Computing Machinery]
 % Michael Ekstrand)}
 % \changes{v1.46}{2017/08/27}{Added authors' addresses}
 % \changes{v1.46}{2017/08/28}{Thankses go before authors' addresses}
+% \changes{v1.48}{2017/09/23}{Added acmart and version info to
+% pdfcreator tag}
+% \changes{v1.48}{2017/10/14}{Suppressed empty DOI (Serguei Mokhov)}
+% \changes{v1.48}{2017/11/18}{Added language and doctitle attributes
+% to PDF (Andreas Reichinger)}
 %   The (in)famous \cs{maketitle}.  Note that in |sigchi-a| mode, authors
 %   are \emph{not} in the title box.
 %
@@ -4612,10 +4656,17 @@ Computing Machinery]
   \if@ACM@printacmref
      \@mkbibcitation
   \fi
-  \hypersetup{pdfauthor={\authors},
+  \hypersetup{%
+    pdflang={English},
+    pdfdisplaydoctitle,
+    pdfauthor={\authors},
     pdftitle={\@title},
     pdfsubject={\@concepts},
-    pdfkeywords={\@keywords}}%
+    pdfkeywords={\@keywords},
+    pdfcreator={LaTeX with acmart
+      \csname ver@acmart.cls\endcsname\space
+      and hyperref
+      \csname ver@hyperref.sty\endcsname}}%
   \@printendtopmatter
   \@afterindentfalse
   \@afterheading
@@ -5437,7 +5488,7 @@ Computing Machinery]
      ACM, New York, NY, USA%
        \@article@string\unskip, \ref{TotPages}~\@pages@word.
   \fi
-  \@formatdoi{\@acmDOI}
+  \ifx\@acmDOI\@empty\else\@formatdoi{\@acmDOI}\fi
 \par\egroup}
 %    \end{macrocode}
 %
@@ -6104,8 +6155,9 @@ Computing Machinery]
   \@ifundefined{proposition}{%
   \newtheorem{proposition}[theorem]{Proposition}
   }{}
+  \@ifundefined{lemma}{%
   \newtheorem{lemma}[theorem]{Lemma}
-  \@ifundefined{lemma}{}{}
+  }{}
   \@ifundefined{corollary}{%
   \newtheorem{corollary}[theorem]{Corollary}
   }{}
