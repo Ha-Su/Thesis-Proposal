@@ -1,4 +1,4 @@
-DOC := main
+DOC := seminar-paper
 LATEXMK := latexmk -pdf
 
 .PHONY: all
